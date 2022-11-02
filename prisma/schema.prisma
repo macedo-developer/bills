@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  name       String
+  password   String
+  created_at DateTime @default(now())
+
+  Expense  Expense[]
+  Category Category[]
+  Source   Source[]
+  Owner    Owner[]
+}
+
+model Category {
+  id         String   @id @default(uuid())
+  name       String
+  type       String
+  color      String
+  user_id    String
+  created_at DateTime @default(now())
+
+  user    User      @relation(fields: [user_id], references: [id])
+  Expense Expense[]
+}
+
+model Source {
+  id         String   @id @default(uuid())
+  name       String
+  user_id    String
+  created_at DateTime @default(now())
+
+  user    User      @relation(fields: [user_id], references: [id])
+  Expense Expense[]
+}
+
+model Owner {
+  id         String   @id @default(uuid())
+  name       String
+  user_id    String
+  created_at DateTime @default(now())
+
+  user    User      @relation(fields: [user_id], references: [id])
+  Expense Expense[]
+}
+
+model Expense {
+  id                  String   @id @default(uuid())
+  description         String
+  value               Decimal
+  installment_amount  Int
+  current_installment Int
+  date                DateTime
+  category_id         String
+  owner_id            String
+  source_id           String
+  user_id             String
+  created_at          DateTime @default(now())
+
+  category Category @relation(fields: [category_id], references: [id])
+  owner    Owner    @relation(fields: [owner_id], references: [id])
+  source   Source   @relation(fields: [source_id], references: [id])
+  user     User     @relation(fields: [user_id], references: [id])
+}
