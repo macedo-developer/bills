@@ -10,6 +10,7 @@ export default class CaregoryController {
 
     return response.json(categorys);
   }
+  
   async create(request: Request, response: Response) {
     const body: any = request.body;
 
