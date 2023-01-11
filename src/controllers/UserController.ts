@@ -62,7 +62,7 @@ export default class UserController {
     try {
       const userUpdate = await prisma.user.update({
         where: {
-          id: body.id,
+          id: request.params.id,
         },
         data: {
           password: md5(body.password),
