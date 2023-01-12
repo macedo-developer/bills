@@ -16,9 +16,11 @@ const expenseController = new ExpenseController();
 routes.get("/users", userController.show);
 routes.post("/user", userController.create);
 routes.put("/user/:id", userController.update);
-routes.post("/user/login", userController.findOne);
+routes.post("/user/login", userController.findOne); //pode seer melhorada essa rota
 routes.get("/categorys", categoryController.show);
 routes.post("/category", categoryController.create);
+routes.put("/category/:id", categoryController.update);
+routes.get("/category/:id", categoryController.findOne);
 routes.get("/sources", sourceController.show);
 routes.post("/source", sourceController.create);
 routes.get("/owners", ownerController.show);
