@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,47 +8,46 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
+  id         String     @id @default(uuid())
   name       String
   password   String
-  created_at DateTime @default(now())
-
-  Expense  Expense[]
-  Category Category[]
-  Source   Source[]
-  Owner    Owner[]
+  created_at DateTime   @default(now())
+  Category   Category[]
+  Expense    Expense[]
+  Income     Income[]
+  Owner      Owner[]
+  Source     Source[]
 }
 
 model Category {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   name       String
   type       String
   color      String
   user_id    String
-  created_at DateTime @default(now())
-
-  user    User      @relation(fields: [user_id], references: [id])
-  Expense Expense[]
+  created_at DateTime  @default(now())
+  user       User      @relation(fields: [user_id], references: [id])
+  Expense    Expense[]
 }
 
 model Source {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   name       String
   user_id    String
-  created_at DateTime @default(now())
-
-  user    User      @relation(fields: [user_id], references: [id])
-  Expense Expense[]
+  created_at DateTime  @default(now())
+  user       User      @relation(fields: [user_id], references: [id])
+  Expense    Expense[]
+  Income     Income[]
 }
 
 model Owner {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   name       String
   user_id    String
-  created_at DateTime @default(now())
-
-  user    User      @relation(fields: [user_id], references: [id])
-  Expense Expense[]
+  created_at DateTime  @default(now())
+  user       User      @relation(fields: [user_id], references: [id])
+  Expense    Expense[]
+  Income     Income[]
 }
 
 model Expense {
@@ -66,9 +62,21 @@ model Expense {
   source_id           String
   user_id             String
   created_at          DateTime @default(now())
+  category            Category @relation(fields: [category_id], references: [id])
+  owner               Owner    @relation(fields: [owner_id], references: [id])
+  source              Source   @relation(fields: [source_id], references: [id])
+  user                User     @relation(fields: [user_id], references: [id])
+}
 
-  category Category @relation(fields: [category_id], references: [id])
-  owner    Owner    @relation(fields: [owner_id], references: [id])
-  source   Source   @relation(fields: [source_id], references: [id])
-  user     User     @relation(fields: [user_id], references: [id])
+model Income {
+  id          String   @id @default(uuid())
+  description String
+  value       Decimal
+  source_id   String
+  owner_id    String
+  user_id     String
+  created_at  DateTime @default(now())
+  owner       Owner    @relation(fields: [owner_id], references: [id])
+  source      Source   @relation(fields: [source_id], references: [id])
+  user        User     @relation(fields: [user_id], references: [id])
 }
