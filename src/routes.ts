@@ -23,6 +23,8 @@ routes.put("/category/:id", categoryController.update);
 routes.get("/category/:id", categoryController.findOne);
 routes.get("/sources", sourceController.show);
 routes.post("/source", sourceController.create);
+routes.put("/source/:id", sourceController.update);
+routes.get("/source/:id", sourceController.findOne);
 routes.get("/owners", ownerController.show);
 routes.post("/owner", ownerController.create);
 routes.get("/expenses", expenseController.show);
